@@ -221,6 +221,12 @@ def main():
     
     index = init_vector_store(nodes)
     retriever = index.as_retriever(similarity_top_k=Config.TOP_K,vector_store_query_mode="hybrid",alpha=0.5)
+    
+    query_engine = index.as_query_engine(
+        similarity_top_k=Config.TOP_K,
+        node_postprocessors=[reranker]
+    )
+
     # 调整检索器配置（扩大召回范围并启用混合检索）
     # retriever = index.as_retriever(
     #     similarity_top_k=20,  # 从10提升到20
